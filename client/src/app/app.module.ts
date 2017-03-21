@@ -4,10 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { BookmarkComponent } from './bookmark/bookmark.component';
+import { BookmarksComponent } from './bookmarks/bookmarks.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    BookmarkComponent,
+    BookmarksComponent
   ],
   imports: [
     BrowserModule,

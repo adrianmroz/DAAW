@@ -20,7 +20,7 @@
       "prefix": "app",
       "styles": [
         "styles.css",
-		"styles.less"
+		    "styles.less"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -52,7 +52,7 @@
     }
   },
   "defaults": {
-    "styleExt": ["css","less"],
+    "styleExt": [ "css","less"],
     "component": {}
   }
 }
