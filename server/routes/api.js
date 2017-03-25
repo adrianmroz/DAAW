@@ -25,7 +25,6 @@ router.get('/', function(req,res){
 
 router.post('/bookmarks', function(req, res){
 	couch.insert('database',{
-		id: req.body.id,
 		url: req.body.url
 	}).then(
 		function(data,headers,status){
@@ -45,6 +44,18 @@ router.get('/bookmarks', function(req, res){
 			document.push(doc.value);
     });
 		res.json(document);
+  }
+});
+});
+
+router.get('/bookmarks/:id', function(req,res){
+database.view('all_urls', 'all',function(err, body) {
+  if (!err) {
+    body.rows.forEach(function(doc) {
+			if(doc.id==req.params.id){
+      res.json(doc.value);
+			}
+    });
   }
 });
 });
