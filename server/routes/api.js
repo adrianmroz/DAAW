@@ -49,15 +49,27 @@ router.get('/bookmarks', function(req, res){
 });
 
 router.get('/bookmarks/:id', function(req,res){
-database.view('all_urls', 'all',function(err, body) {
-  if (!err) {
-    body.rows.forEach(function(doc) {
-			if(doc.id==req.params.id){
-      res.json(doc.value);
-			}
-    });
-  }
+couch.get("database", req.params.id).then(({data, headers, status}) => {
+    console.log(data);
+		res.json(data);
+}, err => {
+    console.log(err);
 });
 });
 
+
+router.delete('/bookmarks/:id',function(req,res){
+	database.get(req.params.id, function(err, body) {
+  if (!err) {
+    var latestRev = body._rev;
+    database.destroy(req.params.id, latestRev, function(err, body, header) {
+      if (!err) {
+          console.log("Successfully deleted doc", req.params.id);
+					res.status(200);
+      }
+    });
+  }
+	console.log(err);
+})
+});
 module.exports = router;  
