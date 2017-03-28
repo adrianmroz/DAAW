@@ -21,9 +21,14 @@ export class BookmarksService {
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
+  addBookmark(payload: any): Observable<any>{
+    return this._http.post(apiAdress+'/bookmarks',JSON.stringify(payload), this.options)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
+  }
  
   private handleError(error: Response) {
-    console.error('Survey Service Error:', error);
+    console.error('Bookmarks Service Error:', error);
     return Observable.throw(error.json().error || 'Server error');
   }
 }

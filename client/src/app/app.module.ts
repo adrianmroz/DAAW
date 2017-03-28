@@ -4,20 +4,22 @@ import { FormsModule }     from '@angular/forms';
 import { HttpModule }      from '@angular/http';
 
 import { BookmarksModule } from './bookmarks/bookmarks.module';
+import { NewBookmarkModule } from './new-bookmark/new-bookmark.module';
+import { TagsModule } from './tags/tags.module';
 
 import { AppComponent }    from './app.component';
-import { TagsComponent } from './tags/tags.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    TagsComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,    
-    BookmarksModule
+    BookmarksModule,
+    NewBookmarkModule,
+    TagsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -14,6 +14,9 @@ import { TagsService } from './../services/tags.service';
   ],
   declarations: [
     TagsComponent
+  ],
+  exports: [
+    TagsComponent
   ]
 })
 export class TagsModule { }
