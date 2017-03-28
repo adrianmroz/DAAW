@@ -19,7 +19,6 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
 		    "styles.less"
       ],
       "scripts": [],
@@ -52,7 +51,7 @@
     }
   },
   "defaults": {
-    "styleExt": [ "css","less"],
+    "styleExt": "less",
     "component": {}
   }
 }
