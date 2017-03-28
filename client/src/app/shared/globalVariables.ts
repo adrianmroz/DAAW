@@ -1,1 +1,1 @@
-export var apiAdress = '';
+export var apiAdress = 'http://localhost:3000/api';

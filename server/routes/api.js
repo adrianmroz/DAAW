@@ -25,10 +25,12 @@ router.get('/', function(req,res){
 
 router.post('/bookmarks', function(req, res){
 	couch.insert('database',{
-		url: req.body.url
+		url: req.body.url,
+    name: req.body.name,
+    tags: req.body.tags
 	}).then(
 		function(data,headers,status){
-		res.send(status);
+    res.json({msg:"Dodano do bazy"}).status(201);
 	},
 	function(err){
 		res.send(err);
