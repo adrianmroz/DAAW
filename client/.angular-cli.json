@@ -19,9 +19,19 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+        "../uikit/css/uikit.min.css",
+        "../uikit/css/uikit.css",
+        "../uikit/css/uikit.min.css",
+        "../uikit/css/uikit.css",
 		    "styles.less"
       ],
-      "scripts": [],
+      "scripts": [
+        "../uikit/js/uikit.min.js",
+        "../uikit/js/uikit-icons.min.js",
+        "../uikit/js/components/*",
+
+        "../node_modules/jquery/dist/jquery.min.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
