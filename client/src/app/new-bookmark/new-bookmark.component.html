@@ -1,20 +1,20 @@
-<div class="new-bookmark">
+<div class="uk-card uk-card-default uk-card-body new-bookmark">
   <div *ngIf="!active" class="new-bookmark-deactive" (click)="onClick()">
-    <span>+</span>
+    <button class="uk-button uk-button-primary new-bookmark">Dodaj zakładkę</button>
   </div>
   <div *ngIf="active" class="new-bookmark-active">
     <form #addForm="ngForm" (ngSubmit)="addBookmark(addForm)">
-      <label for="url">Url</label>
-      <input type="text" name="url" id="url" ngModel>
-
-      <label for="name">Name</label>
-      <input type="text" name="name" id="name" ngModel>
-
-      <label for="tags">Tags</label>
-      <input type="text" name="tags" id="tags" ngModel>
-
-      <button type="submit">Add</button>
+      <div class="uk-margin">
+        <input class="uk-input-small" type="text" placeholder="Adres URL" name="url" id="url" ngModel>
+      </div>
+      <div class="uk-margin">
+        <input class="uk-input-small" type="text" placeholder="Nazwa" name="name" id="name" ngModel>
+      </div>
+      <!-- <input class="uk-input" type="text" placeholder="Tag" name="tags" id="tags" ngModel> -->
+      <div class="uk-margin">
+        <button class="uk-button-small uk-button-primary" type="submit">Dodaj</button>
+        <button class="uk-button-small uk-button-default" type="submit" (click)="onClick()">Anuluj</button>
+      </div>
     </form>
-    <span (click)="onClick()">x</span>
   </div>
 </div>
