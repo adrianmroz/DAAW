@@ -8,6 +8,7 @@ import 'rxjs/add/operator/catch';
 import { apiAdress } from './../shared/globalVariables';
 import { Bookmark } from './../models/Bookmark';
 
+
 @Injectable()
 export class BookmarksService {
   

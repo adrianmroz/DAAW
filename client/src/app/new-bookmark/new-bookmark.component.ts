@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { BookmarksService } from './../services/bookmarks.service';
 
+import { db } from './../shared/globalVariables';
+
 @Component({
   selector: 'app-new-bookmark',
   templateUrl: './new-bookmark.component.html',
@@ -23,5 +25,12 @@ export class NewBookmarkComponent implements OnInit {
       data => console.log(data),
       err => console.log(err)
     )
+    
+    /*var test = {
+      "_id":"kek",
+      "url":form.value.url,
+      "name":form.value.name
+    }
+    db.put(test);*/       //alternatywna metoda dodania do coucha z wykorzystaniem skladni poucha (niefajna)
   }
 }

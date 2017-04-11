@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Bookmark } from './../models/Bookmark';
 import { BookmarksService } from './../services/bookmarks.service';
 
+import { db } from './../shared/globalVariables';
+
 @Component({
   selector: 'app-bookmarks',
   templateUrl: './bookmarks.component.html'
@@ -45,6 +47,10 @@ export class BookmarksComponent implements OnInit {
         };
         this.bookmarks.push(bookmark);
       }));
+      db.info().then(function (info) {
+      console.log(info);
+      })
+
   }
 
 }
