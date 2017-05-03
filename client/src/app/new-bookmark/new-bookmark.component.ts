@@ -21,6 +21,7 @@ export class NewBookmarkComponent implements OnInit {
     this.active ? this.active = false : this.active = true;
   }
   addBookmark(form: NgForm){
+        
     this.bookmarksService.addBookmark(form.value).subscribe(
       data => console.log(data),
       err => console.log(err)

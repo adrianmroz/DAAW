@@ -1,0 +1,19 @@
+<form #loginForm="ngForm" (ngSubmit)="loginUser(loginForm)">
+  <label for="email">Email</label>
+  <input type="text" name="email" id="email" ngModel>
+
+  <label for="password">Password</label>
+  <input type="password" name="password" id="password" ngModel>
+
+  <button type="submit">Login</button>
+</form>
+
+<form #signUpForm="ngForm" (ngSubmit)="signUpUser(signUpForm)">
+  <label for="email">Email</label>
+  <input type="text" name="email" id="email" ngModel>
+
+  <label for="password">Password</label>
+  <input type="password" name="password" id="password" ngModel>
+
+  <button type="submit">Sign Up</button>
+</form>

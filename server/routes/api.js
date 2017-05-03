@@ -1,7 +1,18 @@
 const express	= require('express');
 var router      = express.Router();
 const path 		= require('path');
+var expressJwt = require('express-jwt');
 const NodeCouchDb = require('node-couchdb');
+var SECRET = 'mysecret';
+const authenticate  = expressJwt(
+    {secret: SECRET,
+     getToken: function (req) {
+        var token = req.body.access_token || req.query.access_token || req.headers['x-access-token'] ;
+        if (token) {
+            return token;
+        } 
+            return null;
+    }});
 
 const couch = new NodeCouchDb({
 	auth: {
@@ -9,13 +20,11 @@ const couch = new NodeCouchDb({
         pass: '123456'
     }
 });
-var nano   = require('nano')('http://localhost:5984')
-  , db     = nano.use('database')
-  ;
+var nano   = require('nano')('http://localhost:5984'),
+    db     = nano.use('database');
 var database = nano.db.use('database');
 
-var expressJwt = require('express-jwt');
-var SECRET = 'mysecret';
+
 
 var nano2 = require('nano')('http://localhost:5984/users');
 var jwt = require('jsonwebtoken');
@@ -55,20 +64,23 @@ router.post('/authentication', function(req, res) {
 
 router.post('/users',function(req, res) {   ///trzeba zrobic validacje po froncie bo nazwa bazy musi byc z malej litery i nie moze zawierac dziwnych znakow
 //when signup method is called, we insert a new user in couchDB, username being the id of the record
+    var password = req.body.password;
+    var username = req.body.username;
+
     nano2.insert({
-        'password': req.body.password
-    }, req.body.username, function(err, body, header) {
+        'password': password
+    }, username, function(err, body, header) {
         if (err) {
             //if for example username already exists in database, an error will be thrown
             console.log('user insertion error', err.message);
             res.status(400).send(err.message);
         }else{
-        console.log('you have inserted a new user: ' + req.body.username);
+        console.log('you have inserted a new user: ' + username);
         console.log(req.body);
                    var profile = {
-                username: req.body.username
+                username: username
             };
-            couch.createDatabase(req.body.username).then(() => {console.log("database "+req.body.username+" created")}, err => {
+            couch.createDatabase(username).then(() => {console.log("database "+username+" created")}, err => {
                 console.log("cant create database");
             });
             // We are encoding the profile inside the token
@@ -84,36 +96,36 @@ router.post('/users',function(req, res) {   ///trzeba zrobic validacje po fronci
 });
 
 
-router.use(function(req, res, next) {
+// router.use(function(req, res, next) {
 
-  // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+//   // check header or url parameters or post parameters for token
+//   var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-  // decode token
-  if (token) {
+//   // decode token
+//   if (token) {
 
-    // verifies secret and checks exp
-    jwt.verify(token, app.get('secret'), function(err, decoded) {      
-      if (err) {
-        return res.json({ success: false, message: 'Failed to authenticate token.' });    
-      } else {
-        // if everything is good, save to request for use in other routes
-        req.decoded = decoded;    
-        next();
-      }
-    });
+//     // verifies secret and checks exp
+//     jwt.verify(token, app.get('secret'), function(err, decoded) {      
+//       if (err) {
+//         return res.json({ success: false, message: 'Failed to authenticate token.' });    
+//       } else {
+//         // if everything is good, save to request for use in other routes
+//         req.decoded = decoded;    
+//         next();
+//       }
+//     });
 
-  } else {
+//   } else {
 
-    // if there is no token
-    // return an error
-    return res.status(403).send({ 
-        success: false, 
-        message: 'No token provided.' 
-    });
+//     // if there is no token
+//     // return an error
+//     return res.status(403).send({ 
+//         success: false, 
+//         message: 'No token provided.' 
+//     });
     
-  }
-});
+//   }
+// });
 
 
 
@@ -123,7 +135,7 @@ router.get('/', function(req,res){
 });
 
 
-router.post('/bookmarks', function(req, res){
+router.post('/bookmarks', authenticate, function(req, res){
 	couch.insert('database',{
 		url: req.body.url,
     name: req.body.name,
@@ -137,7 +149,7 @@ router.post('/bookmarks', function(req, res){
 	});
 });
 
-router.get('/bookmarks', function(req, res){
+router.get('/bookmarks', authenticate, function(req, res){
 	database.view('all_urls', 'all', function(err, body) {
 		var document=[];
   if (!err) {
@@ -150,7 +162,7 @@ router.get('/bookmarks', function(req, res){
 });
 });
 
-router.get('/bookmarks/:id', function(req,res){
+router.get('/bookmarks/:id', authenticate, function(req,res){
 couch.get("database", req.params.id).then(({data, headers, status}) => {
     console.log(data);
 		res.json(data);
@@ -160,7 +172,7 @@ couch.get("database", req.params.id).then(({data, headers, status}) => {
 });
 
 
-router.delete('/bookmarks/:id',function(req,res){
+router.delete('/bookmarks/:id', authenticate, function(req,res){
 	database.get(req.params.id, function(err, body) {
   if (!err) {
     var latestRev = body._rev;
