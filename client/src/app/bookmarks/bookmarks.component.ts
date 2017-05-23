@@ -12,27 +12,31 @@ import { db } from './../shared/globalVariables';
 export class BookmarksComponent implements OnInit {
 
   bookmarks: Array<Bookmark> = [];
-  constructor(private bookmarksService: BookmarksService) { 
-    this.bookmarks = [
-      {
-        id: '1',
-        url: 'http://www.onet.pl',
-        name: 'Onet',
-        tags: ['news']
-      },
-      {
-        id: '2',
-        url: 'http://www.sport.pl',
-        name: 'Sport',
-        tags: ['sport']
-      },
-      {
-        id: '3',
-        url: 'http://www.facebook.com',
-        name: 'Facebook',
-        tags: ['social']
-      }
-    ];
+  constructor(bookmarksService: BookmarksService) {
+
+    bookmarksService.bookmarks$.subscribe(bookmarks => {
+      this.bookmarks = bookmarks;
+    });
+    //this.bookmarks = [
+    //  {
+    //    id: '1',
+    //    url: 'http://www.onet.pl',
+    //    name: 'Onet',
+    //    tags: ['news']
+    //  },
+    //  {
+    //    id: '2',
+    //    url: 'http://www.sport.pl',
+    //    name: 'Sport',
+    //    tags: ['sport']
+    //  },
+    //  {
+    //    id: '3',
+    //    url: 'http://www.facebook.com',
+    //    name: 'Facebook',
+    //    tags: ['social']
+    //  }
+    //];
   }
 
   ngOnInit() {
